@@ -1,31 +1,128 @@
+<!-- pongDemo.html -->
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <h4> HITS: <span id="flip-count">0</span></h4>
+    <h4>Get 10 TO WIN! </h4>
 
-<head>
-  <meta charset="utf-8">
-  <title>HTML Clean Up Lab</title>
-</head>
+    <title>Pong Game</title>
+          <form action="file:///home/chronos/u-d61bd8c135c224a6a2e6c96df776fc322c846473/MyFiles/Downloads/main%20menu.html">
+        <input type="submit" value="Go to back" />
+          </form>
+  </head>
+  </head>
+  <body>
+    <canvas
+      width="500px"
+      height="400px"
+      style="border: 1px solid black"></canvas>
+     
 
-<body>
-  <div id="page-wrapper">
-    <header id="header">
+    <script>
+      var canvas = document.querySelector("canvas");
+      var ctx = canvas.getContext("2d");
+      var count = 0
 
-   
-    </header>
-    <nav id="main-nav">
-      <ul>
-        <li><a href="https://cdivinity.github.io/project-1/">Professional Resume</a></li>
-        <li><a href="http://www.google.com">Google</a></li>
-        <li><a href="http://www.microsoft.com">Microsoft</a></li>
+      
 
-      </ul>
-         <h1>Things i made I made </h1>
-       <img src="https://lh6.googleusercontent.com/kx1RD-AtZIC1h3_u8KBzA-LIgXsEBt6V_f4t80qZEpIYQlNPesZP7JuaQs5A8gBiuLYF75X8v_MwXy-8Itzlc_0m55hLx1hGARLHX4aoV8eGS9IbuQLrcHsZUYQgiktLnw=w1280" width="200px"/>
-       
-       <p><a href="https://scratch.mit.edu/projects/844984046">Fuseshock Acrcade</a></p>
-  
-    
+      //Draw the background with a function
+      function draw() {
+        ctx.fillStyle = "pink"
+        ctx.fillRect(0, 0, 500, 400)
+        
+        var count = 0
 
-</body>
+        createBall()
+        ballBehavior()
+        drawPaddle()
+        interact()
+      }
 
+      //Draw the Ball
+      //Properties
+      var ballX = 250
+      var ballY = 200
+      var xSpeed = 1
+      var ySpeed = 1
+
+      function createBall() {
+        ctx.fillStyle = "aqua"
+        ctx.beginPath()
+        ctx.arc(ballX, ballY, 10, 0, 2 * Math.PI)
+        ctx.fill()
+        ctx.closePath()
+      }
+
+      function ballBehavior() {
+        move()
+        bounce()
+      }
+
+      function move() {
+        ballX = ballX + xSpeed;
+        ballY = ballY + ySpeed;
+      }
+
+      function bounce() {
+        if (ballY + 10 >= 400) {
+          ySpeed = -1 * ySpeed
+        }
+        if (ballY - 10 <= 0) {
+          ySpeed = -1 * ySpeed
+        }
+        if (ballX + 10 >= 500) {
+          xSpeed = -1 * xSpeed
+        }
+        if (ballX -10 <= 0) {
+          xSpeed = -1 * xSpeed
+        }
+      }
+
+      //Create Paddle
+      var xPaddle = 0
+      var yPaddle = 350
+
+      function drawPaddle() {
+        ctx.fillStyle = 'white'
+        // ctx.fillRect(0,0,125,15)
+        ctx.fillRect(xPaddle,yPaddle,125,15)
+      }
+
+      // Event Listener
+      document.addEventListener('keydown',function(event){
+            if ( event.code == "ArrowRight"){
+                xPaddle += 20
+            } else if ( event.code == "ArrowLeft") {
+                xPaddle -= 20
+            }
+      })
+
+
+      //interact
+      function interact(){
+        if ( ballX >= xPaddle && ballX <= (xPaddle + 125) && ballY == 350 ){
+            xSpeed *= -1
+            ySpeed *= -1
+            count += 1
+            document.getElementById('flip-count').innerHTML = count
+            
+        }
+        if (count==10 && ballX >= xPaddle && ballX <= (xPaddle + 120) && ballY == 350 ){
+         alert('YOU WIN!');
+    location.reload();
+            
+            
+         }
+         
+      }
+
+      // Game Run By itself
+      setInterval(function () {
+        draw()
+      }, 0.25)
+    </script>
+  </body>
 </html>
